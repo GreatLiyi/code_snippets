@@ -150,3 +150,6 @@
 
 @end
 ```
+
+## storyboard image
+![storyboard](images/pageviewcontroller-storyboard.png)
