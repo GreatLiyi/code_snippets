@@ -46,3 +46,75 @@ typedef enum : NSInteger {
 ```
 //return editingStyle for row
 tableView:editingStyleForRowAtIndexPath:
+
+### reorder row
+- showsReorderControl property
+uitableViewDataSource method
+- tableView:canMoveRowAtIndexPath:
+- tableView:moveRowAtIndexPath:toIndexPath:
+
+### table cell state transition
+- willTransitionToState:
+- didTransitionToState:
+
+### table view properties about cells
+- rowHeight
+- separatorStyle,separatorColor,separatorInset
+- backgroundColor, backgroundView
+- tableHeaderView, tableFooterView
+
+### table cell structure
+- contentView(textLabel,detailTextLabel,custom view)
+- accessoryView
+
+### custom cell
+几种方法
+- subclass uitableviewcell
+- addSubview in tableView:cellForRowAtIndexPath: method
+- nib
+- storyboard
+
+### configure a cell
+- tableView:cellForRowAtIndexPath:
+- tableView:willDisplayCell:forRowAtIndexPath:  //last place to configure a cell
+
+### section header and footer
+class UITableViewHeaderFooterView
+- use header or footer title string
+tableView:titleForHeaderInSection:  //string apply to view's textLabel.text
+tableView:titleForFooterInsection:
+- use header or footer view
+tableView:viewForHeaderInSection:
+tableView:viewForFooterInSection:
+
+### section index
+- multi-sections
+- implement data source method: tableView:titleForHeaderInSection:
+- customize style of "section index title"
+tableView.sectionIndexColor
+sectionIndexBackgroundColor
+sectionIndexTrackingBackgroundColor
+
+### cell selection
+uitableviewcell method
+- setHighlighted:animated:
+- setSelected:animated:
+uitableview method
+- @property allowSelection, allowMultipleSelection
+- selectedBackgroundView property
+- @property multipleSelectionBackgroundView
+- indexPathForSelectedRow
+- indexPathForSelectedRows
+- selectRowAtIndexPath:animated:scrollPosition: (with nil as indexpath to deselect all)
+- deselectRowAtIndexPath:animated:
+
+### tableview scrolling and layout
+indexpath和frame的相关转换
+- indexPathForRowAtPoint:
+- indexPathsForRowsInRect:
+- rectForSelection:
+- rectForRowAtIndexPath:
+- rectForFooterInSection:
+- rectForHeaderInSection:
+
+### UISearchDisplayController(UISearchBar + UITableViewController)
