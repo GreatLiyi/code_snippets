@@ -118,3 +118,18 @@ indexpath和frame的相关转换
 - rectForHeaderInSection:
 
 ### UISearchDisplayController(UISearchBar + UITableViewController)
+
+
+## tableview editing
+UIViewController setEditing:animation: 通常delegate到tableView setEditing:animation:方法
+- tableView:canEditRowAtIndexPath: //data source
+- tableView:editingStyleForRowAtIndexPath: //delegate
+- tableView:commitEditingStyle:forRowAtIndexPath:
+
+- insertRowsAtIndexPaths:withRowAnimation:
+- deleteRowsAtIndexPaths:withRowAnimation:
+- insertSections:withRowAnimation:
+- deleteSections:withRowAnimation:
+- moveSection:toSection:
+- moveRowAtIndexPath:toIndexPath:
+**you can combine them by surrounding with `beginUpdates` and `endUpdates`**

@@ -12,20 +12,15 @@
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) NSArray *sectionNames;
-@property (nonatomic,strong) NSArray *cityNamesWithGroup;
+@property (nonatomic,strong) NSMutableArray *sectionNames;
+@property (nonatomic,strong) NSMutableArray *cityNamesWithGroup;
 @end
 
 @implementation ViewController
 
-- (IBAction)editRow:(UIBarButtonItem *)sender {
-    if ([self.tableView isEditing]) {
-        //sender.title = @"Done";
-        [self.tableView setEditing:NO animated:YES];
-    }else{
-        [self.tableView setEditing:YES animated:YES];
-    }
-    
+-(void)setEditing:(BOOL)editing animated:(BOOL)animated{
+    [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:animated];
 }
 
 -(void)setTableView:(UITableView *)tableView{
@@ -56,7 +51,6 @@
         if (![firstLetter isEqualToString:previous]) {
             previous = firstLetter;
             [sectionNames addObject:firstLetter];
-            
             [groupCities addObject:[NSMutableArray new]];
         }
         
@@ -64,6 +58,10 @@
     }
     self.cityNamesWithGroup=groupCities;
     self.sectionNames=sectionNames;
+}
+
+-(void)refreshSectionNames{
+    //NSMutableArray *marray = [NSMutableArray new];
 }
 
 - (void)viewDidLoad {
@@ -78,6 +76,7 @@
     //self.tableView.sectionIndexTrackingBackgroundColor = [UIColor grayColor];
     
     //self.tableView.allowsMultipleSelection=YES;
+    self.navigationItem.rightBarButtonItem=self.editButtonItem;
 }
 
 #pragma mark table view datasource
@@ -114,6 +113,50 @@ titleForHeaderInSection:(NSInteger)section{
 
 -(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
     return self.sectionNames;
+}
+
+//-(BOOL)tableView:(UITableView *)tableView
+//canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return indexPath.row==0;
+//}
+
+-(void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView endEditing:YES];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSMutableArray *cities = self.cityNamesWithGroup[indexPath.section];
+        [cities removeObjectAtIndex:indexPath.row];
+        if (!cities.count) {
+            //remove section
+            NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:indexPath.section];
+            [self.cityNamesWithGroup removeObjectAtIndex:indexPath.section];
+            //remove section index
+            [self.sectionNames removeObjectAtIndex:indexPath.section];
+            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+        }else{
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }else if (editingStyle == UITableViewCellEditingStyleInsert){
+        //update model
+        NSMutableArray *cities = self.cityNamesWithGroup[indexPath.section];
+        [cities addObject:@""];
+        NSInteger ct = [cities count];
+        [tableView beginUpdates];
+        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ct-1 inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ct-2 inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView endUpdates];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:ct-1 inSection:indexPath.section]];
+        ((ItemCell *)cell).text
+    }
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSUInteger rc = [tableView numberOfRowsInSection:indexPath.section];
+    if (indexPath.row == rc-1) {
+        return UITableViewCellEditingStyleInsert;
+    }
+    return self.editing?UITableViewCellEditingStyleDelete:UITableViewCellEditingStyleNone;
 }
 
 #pragma mark table view delegate
