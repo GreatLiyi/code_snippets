@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "ItemCell.h"
+#import "EditableCell.h"
 #define SUBTITLE_CELL @"itemCell"
 
-@interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *sectionNames;
 @property (nonatomic,strong) NSMutableArray *cityNamesWithGroup;
@@ -76,7 +76,17 @@
     //self.tableView.sectionIndexTrackingBackgroundColor = [UIColor grayColor];
     
     //self.tableView.allowsMultipleSelection=YES;
+    
+    //[self.tableView registerNib:[UINib nibWithNibName:@"EditableCell" bundle:nil]  forCellReuseIdentifier:SUBTITLE_CELL];
     self.navigationItem.rightBarButtonItem=self.editButtonItem;
+    
+}
+
+#pragma mark uitextfield delegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField endEditing:YES];
+    return NO;
 }
 
 #pragma mark table view datasource
@@ -95,14 +105,29 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
-    cell.textLabel.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
-    //cell.textLabel.text= [NSString stringWithFormat:@"this is label %ld",(long)indexPath.row];
-    //cell.detailTextLabel.text = @"a quick brow fox jumps over the lazy dog";
-    
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
+    //cell.textLabel.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
+    /*
     ItemCell *itemCell = (ItemCell *)cell;
     itemCell.itemId = indexPath.row+1;
     itemCell.qty = 1;
+    return cell;
+     */
+    /*
+    if (tableView.isEditing) {
+        EditableCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
+        cell.textField.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
+        cell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        cell.textField.delegate=self;
+        return cell;
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
+        cell.textLabel.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
+        return cell;
+    }
+    */
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
+    cell.textLabel.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
     return cell;
 }
 
@@ -147,7 +172,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
         [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:ct-2 inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:ct-1 inSection:indexPath.section]];
-        ((ItemCell *)cell).text
+        //((ItemCell *)cell).text
     }
 }
 
@@ -193,10 +218,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 
 -(void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"select row %ld",(long)indexPath.row);
+    //NSLog(@"select row %ld",(long)indexPath.row);
     
-    CGRect rect = [tableView rectForRowAtIndexPath:indexPath];
-    NSLog(@"rect=%@",NSStringFromCGRect(rect));
+    //CGRect rect = [tableView rectForRowAtIndexPath:indexPath];
+    //NSLog(@"rect=%@",NSStringFromCGRect(rect));
 }
 
 @end

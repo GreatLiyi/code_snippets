@@ -123,8 +123,9 @@ indexpath和frame的相关转换
 ## tableview editing
 UIViewController setEditing:animation: 通常delegate到tableView setEditing:animation:方法
 - tableView:canEditRowAtIndexPath: //data source
-- tableView:editingStyleForRowAtIndexPath: //delegate
+- tableView:editingStyleForRowAtIndexPath: //delegate 判断哪些row可以做Insert or Delete or None. 针对Insert，点击后直接触发tableView:commitEditingStyle:forRowAtIndexPath:方法；Delete点击后，右侧划出一个Delete按钮，确认后才触发commitEditingStyle方法。
 - tableView:commitEditingStyle:forRowAtIndexPath:
+通常做model update操作，之后更新tableView appearance。如果ui update有多条语句，可以包含在一个[tableView beginUpdates] and [tableView endUpdates]之间。具体的赋值操作不一定在这里处理，如果用到UITextField，那么textFieldDidEndEditing:(UITextField *)是一个合适的地方。
 
 - insertRowsAtIndexPaths:withRowAnimation:
 - deleteRowsAtIndexPaths:withRowAnimation:
@@ -133,3 +134,11 @@ UIViewController setEditing:animation: 通常delegate到tableView setEditing:ani
 - moveSection:toSection:
 - moveRowAtIndexPath:toIndexPath:
 **you can combine them by surrounding with `beginUpdates` and `endUpdates`**
+
+## rearranging table items
+- tableView:moveRowAtIndexPath:toIndexPath: //if the data source implements this method, the table displays a reordering control in editing mode.
+- tableView:canMoveRowAtIndexPath: //suppress individual row
+- tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:  //limit destination row
+
+
+## table view menus
