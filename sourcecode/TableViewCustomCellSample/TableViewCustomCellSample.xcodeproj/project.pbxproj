@@ -16,6 +16,8 @@
 		0F48E0F71B19B40A007B3BBC /* TableViewCustomCellSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48E0F61B19B40A007B3BBC /* TableViewCustomCellSampleTests.m */; };
 		0F48E1021B19B6A1007B3BBC /* ItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48E1011B19B6A1007B3BBC /* ItemCell.m */; };
 		0F48E1041B1B205E007B3BBC /* cities.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F48E1031B1B205E007B3BBC /* cities.txt */; };
+		84FEC48E1B2002C300D981ED /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FEC48C1B2002C300D981ED /* EditableCell.m */; };
+		84FEC48F1B2002C300D981ED /* EditableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FEC48D1B2002C300D981ED /* EditableCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,9 @@
 		0F48E1001B19B6A1007B3BBC /* ItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCell.h; sourceTree = "<group>"; };
 		0F48E1011B19B6A1007B3BBC /* ItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCell.m; sourceTree = "<group>"; };
 		0F48E1031B1B205E007B3BBC /* cities.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cities.txt; sourceTree = "<group>"; };
+		84FEC48B1B2002C300D981ED /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditableCell.h; path = Cell/EditableCell.h; sourceTree = "<group>"; };
+		84FEC48C1B2002C300D981ED /* EditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditableCell.m; path = Cell/EditableCell.m; sourceTree = "<group>"; };
+		84FEC48D1B2002C300D981ED /* EditableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditableCell.xib; path = Cell/EditableCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +102,7 @@
 				0F48E0DA1B19B40A007B3BBC /* Supporting Files */,
 				0F48E1001B19B6A1007B3BBC /* ItemCell.h */,
 				0F48E1011B19B6A1007B3BBC /* ItemCell.m */,
+				84FEC4901B2002C700D981ED /* Cell */,
 			);
 			path = TableViewCustomCellSample;
 			sourceTree = "<group>";
@@ -125,6 +131,16 @@
 				0F48E0F51B19B40A007B3BBC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84FEC4901B2002C700D981ED /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				84FEC48B1B2002C300D981ED /* EditableCell.h */,
+				84FEC48C1B2002C300D981ED /* EditableCell.m */,
+				84FEC48D1B2002C300D981ED /* EditableCell.xib */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F48E0E61B19B40A007B3BBC /* Main.storyboard in Resources */,
+				84FEC48F1B2002C300D981ED /* EditableCell.xib in Resources */,
 				0F48E0EB1B19B40A007B3BBC /* LaunchScreen.xib in Resources */,
 				0F48E0E81B19B40A007B3BBC /* Images.xcassets in Resources */,
 				0F48E1041B1B205E007B3BBC /* cities.txt in Resources */,
@@ -228,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FEC48E1B2002C300D981ED /* EditableCell.m in Sources */,
 				0F48E1021B19B6A1007B3BBC /* ItemCell.m in Sources */,
 				0F48E0E31B19B40A007B3BBC /* ViewController.m in Sources */,
 				0F48E0E01B19B40A007B3BBC /* AppDelegate.m in Sources */,
@@ -428,6 +446,7 @@
 				0F48E0FC1B19B40A007B3BBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0F48E0FD1B19B40A007B3BBC /* Build configuration list for PBXNativeTarget "TableViewCustomCellSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +455,7 @@
 				0F48E0FF1B19B40A007B3BBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

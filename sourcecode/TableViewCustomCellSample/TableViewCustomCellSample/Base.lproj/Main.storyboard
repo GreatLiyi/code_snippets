@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BkC-Na-4bE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BkC-Na-4bE">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
         <!--Custom Cell Sample-->
@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="itemCell" textLabel="Pwg-WI-xgl" style="IBUITableViewCellStyleDefault" id="tz1-Eb-rVy" customClass="ItemCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="itemCell" textLabel="Pwg-WI-xgl" style="IBUITableViewCellStyleDefault" id="tz1-Eb-rVy">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tz1-Eb-rVy" id="QQz-nP-HFb">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -46,13 +46,7 @@
                             <constraint firstItem="SPQ-OF-2EV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="qYg-81-ri7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Custom Cell Sample" id="IbN-Ru-ILH">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="qtv-fZ-cwN">
-                            <connections>
-                                <action selector="editRow:" destination="BYZ-38-t0r" id="X8h-2x-rXI"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Custom Cell Sample" id="IbN-Ru-ILH"/>
                     <connections>
                         <outlet property="tableView" destination="SPQ-OF-2EV" id="twQ-0W-uFl"/>
                     </connections>
