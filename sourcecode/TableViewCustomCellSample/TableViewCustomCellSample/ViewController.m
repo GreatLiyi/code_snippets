@@ -128,6 +128,7 @@
     */
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
     cell.textLabel.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"line %ld",indexPath.row];
     return cell;
 }
 
