@@ -33,7 +33,15 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style
              reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    
+    if (self) {
+//        NSLog(@"init with style");
+//        UIFont *f = [UIFont fontWithName:@"Hobbiton brush" size:15];
+//        if (f) {
+//            NSLog(@"font = %@",f);
+//            self.textLabel.font = f;
+//        }
+        
+    }
     
     //self.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
     return self;

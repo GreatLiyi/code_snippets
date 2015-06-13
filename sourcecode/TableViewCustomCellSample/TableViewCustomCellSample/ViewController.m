@@ -38,7 +38,7 @@
         NSString *right =obj2;
         return [left compare:right];
     }];
-    NSLog(@"sorted cities=%@",cities);
+    //NSLog(@"sorted cities=%@",cities);
     
     NSMutableArray *sectionNames = [NSMutableArray new];
     NSMutableArray *groupCities = [NSMutableArray new];
@@ -79,6 +79,10 @@
     
     //[self.tableView registerNib:[UINib nibWithNibName:@"EditableCell" bundle:nil]  forCellReuseIdentifier:SUBTITLE_CELL];
     self.navigationItem.rightBarButtonItem=self.editButtonItem;
+    
+//    for (NSString *s in [UIFont familyNames]) {
+//        NSLog(@"%@: %@",s,[UIFont fontNamesForFamilyName:s]);
+//    }
     
 }
 
@@ -128,6 +132,11 @@
     */
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SUBTITLE_CELL forIndexPath:indexPath];
     cell.textLabel.text = self.cityNamesWithGroup[indexPath.section][indexPath.row];
+    UIFont *f = [UIFont fontWithName:@"Hobbiton Brushhand" size:18];
+    if (f) {
+        //NSLog(@"font = %@",f);
+        cell.textLabel.font=f;
+    }
     return cell;
 }
 
@@ -224,4 +233,19 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //NSLog(@"rect=%@",NSStringFromCGRect(rect));
 }
 
+#pragma mark - rotation
+-(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    NSLog(@"trait collection did change");
+}
+
+-(void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator{
+    [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
+    NSLog(@"will transition to trait collection %@",newCollection);
+}
+
+-(void)viewWillTransitionToSize:(CGSize)size
+      withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    NSLog(@"view will transition to size");
+}
 @end

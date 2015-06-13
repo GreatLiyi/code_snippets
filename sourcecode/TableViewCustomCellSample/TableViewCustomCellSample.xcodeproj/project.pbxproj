@@ -16,6 +16,8 @@
 		0F48E0F71B19B40A007B3BBC /* TableViewCustomCellSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48E0F61B19B40A007B3BBC /* TableViewCustomCellSampleTests.m */; };
 		0F48E1021B19B6A1007B3BBC /* ItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48E1011B19B6A1007B3BBC /* ItemCell.m */; };
 		0F48E1041B1B205E007B3BBC /* cities.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F48E1031B1B205E007B3BBC /* cities.txt */; };
+		0F48E13C1B2BB4AB007B3BBC /* Inconsolata.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F48E13B1B2BB4AB007B3BBC /* Inconsolata.otf */; };
+		0F48E13E1B2BB62C007B3BBC /* hobbitonbrushhand.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F48E13D1B2BB62C007B3BBC /* hobbitonbrushhand.ttf */; };
 		84FEC48E1B2002C300D981ED /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FEC48C1B2002C300D981ED /* EditableCell.m */; };
 		84FEC48F1B2002C300D981ED /* EditableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FEC48D1B2002C300D981ED /* EditableCell.xib */; };
 /* End PBXBuildFile section */
@@ -47,6 +49,8 @@
 		0F48E1001B19B6A1007B3BBC /* ItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCell.h; sourceTree = "<group>"; };
 		0F48E1011B19B6A1007B3BBC /* ItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCell.m; sourceTree = "<group>"; };
 		0F48E1031B1B205E007B3BBC /* cities.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cities.txt; sourceTree = "<group>"; };
+		0F48E13B1B2BB4AB007B3BBC /* Inconsolata.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Inconsolata.otf; sourceTree = "<group>"; };
+		0F48E13D1B2BB62C007B3BBC /* hobbitonbrushhand.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = hobbitonbrushhand.ttf; sourceTree = "<group>"; };
 		84FEC48B1B2002C300D981ED /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditableCell.h; path = Cell/EditableCell.h; sourceTree = "<group>"; };
 		84FEC48C1B2002C300D981ED /* EditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditableCell.m; path = Cell/EditableCell.m; sourceTree = "<group>"; };
 		84FEC48D1B2002C300D981ED /* EditableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditableCell.xib; path = Cell/EditableCell.xib; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 		0F48E0DA1B19B40A007B3BBC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0F48E13D1B2BB62C007B3BBC /* hobbitonbrushhand.ttf */,
+				0F48E13B1B2BB4AB007B3BBC /* Inconsolata.otf */,
 				0F48E0DB1B19B40A007B3BBC /* Info.plist */,
 				0F48E0DC1B19B40A007B3BBC /* main.m */,
 			);
@@ -225,9 +231,11 @@
 			files = (
 				0F48E0E61B19B40A007B3BBC /* Main.storyboard in Resources */,
 				84FEC48F1B2002C300D981ED /* EditableCell.xib in Resources */,
+				0F48E13E1B2BB62C007B3BBC /* hobbitonbrushhand.ttf in Resources */,
 				0F48E0EB1B19B40A007B3BBC /* LaunchScreen.xib in Resources */,
 				0F48E0E81B19B40A007B3BBC /* Images.xcassets in Resources */,
 				0F48E1041B1B205E007B3BBC /* cities.txt in Resources */,
+				0F48E13C1B2BB4AB007B3BBC /* Inconsolata.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
