@@ -99,3 +99,81 @@ readonly
 - 在对象内部读取数据时，直接通过实例变量来读，写入数据时，通过属性来写
 - 在初始化及dealloc方法中，总是通过实例变量来读写数据
 - 通过lazy init方法配置的情况下，需要通过属性来读取数据
+
+## equal判断
+- ==默认是比较指针，使用NSObject的方法isEqual:来比较值是否相等
+- NSString isEqualToString: 比isEqual:方法快，后者要执行额外的步骤。
+- isEqual: and hash
+``` objc
+//一种比较好的计算hash的方法，在碰撞频度和运算复杂程度之间取舍。速度快，hash碰撞几率低的算法。
+- (NSUInteger)hash{
+  NSUInteger firstNameHash = [_firstName hash];
+  NSUInteger lastNameHash = [_lastName hash];
+  NSUInteger ageHash = _age;
+  return firstNameHash ^ lastNameHash ^ ageHash;
+}
+```
+- 等同性判断的深度。如果对象的所有属性都相等，这叫做“深度等同性判定”
+- 容器中可变类的等同性。如果把某对象放入set中之后再修改其内容，那么后面的行为将很难预料。
+
+## class cluster
+- 类族模式可以把实现细节隐藏在一套简单的公告接口后面
+- 从类族的公共抽象基类中继承子类时要当心，先阅读开发文档
+- factory pattern是实现类族的一种方法。
+- 直接比较class不适用于类族模式
+- 基类定义接口，提供一个实例化的方法；子类重写某些方法，实现不同的功能。
++ (UIButton *)buttonWithType:(UIButtonType)type;
+
+## 使用关联对象存放自定义数据
+- 使用关联对象将两个对象联系起来
+- 关联对象用到的方法：
+ + void objc_setAssociatedObject(id object, void* key,id value,objc_AssociationPolicy)
+ + id objc_getAssociatedObject(id object, void* key)
+ + void objc_removeAssociatedObjects(id object)
+
+ ``` objc
+ #import <objc/runtime.h>
+
+ static void *EOCMyAlertViewKey = "EOCMyAlertViewKey";
+ - (void)askUserAQuestion{
+   UIAlertView *alert = [[UIAlertView alloc]
+          initWithTitle:@"Question"
+          message:@"What do you want to do?",
+          delegate:self,
+          cancelButtonTitle:@"Cancel",
+          otherButtonTitles:@"Continue",nil];
+    void (^block)(NSInteger) = ^(NSInteger buttonIndex){
+      if(buttonIndex==0){
+        [self doCancel];
+      }else{
+        [self doContinue];
+      }
+    };
+    objc_setAssociatedObject(alert,EOCMyAlertViewKey,block,OBJC_ASSOCIATION_COPY);
+    [alert show];
+ }
+
+ - (void)alertView:(UIAlertView *)alertView
+    clickedButtonAtIndex:(NSInteger)buttonIndex{
+      void (^block)(NSInteger) = objc_getAssociatedObject(alertView,EOCMyAlertViewKey);
+      block(buttonIndex);
+    }
+ ```
+- 还可以通过子类继承父类，添加新属性的方式来做
+
+## objc_msgSend 与消息转发
+- 若对象无法响应某个selector，则进入消息转发流程
+- 通过运行期的动态方法解析功能，我们可以在需要用到某个方法时将其加入类中
+- 对象可以把其无法解读的某些selector转交给其他对象处理
+- 经过上述两步后，若还是没有办法处理selector，那就启动完整的消息转发机制。
+
+resolveInstanceMethod ->*No*-->forwardingTargetForSelector-->*nil*-->forwardInvocation-->消息未处理
+|           |                                   |
+|           |                                   |
+消息已处理
+
+![消息转发流程](images/forwarding.png)
+
+``` objc
+//利用消息转发机制来实现@dynamic属性
+```

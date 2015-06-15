@@ -55,6 +55,11 @@
     r = [mas.string rangeOfString:@"Peppers"];
     [mas insertAttributedString:pepperAttChar atIndex:r.location+r.length];
     NSLog(@"mas.string = %@",mas.string);
+    
+    //get boundingrect
+    CGRect rect = [mas boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 1) options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    NSLog(@"rect = %@",NSStringFromCGRect(rect));
+    
     self.textView.attributedText = mas;
     [self.view addSubview:self.textView];
 }
