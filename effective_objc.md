@@ -162,6 +162,7 @@ readonly
 - 还可以通过子类继承父类，添加新属性的方式来做
 
 ## objc_msgSend 与消息转发
+https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ObjCRuntimeRef/index.html#//apple_ref/c/func/class_copyMethodList
 - 若对象无法响应某个selector，则进入消息转发流程
 - 通过运行期的动态方法解析功能，我们可以在需要用到某个方法时将其加入类中
 - 对象可以把其无法解读的某些selector转交给其他对象处理
@@ -177,3 +178,40 @@ resolveInstanceMethod ->*No*-->forwardingTargetForSelector-->*nil*-->forwardInvo
 ``` objc
 //利用消息转发机制来实现@dynamic属性
 ```
+
+## 重写description方法
+- description, debugDescription默认调用description方法，当在lldb中使用po命令打印时调用该方法。
+``` objc
+- (NSString *)description{
+  return [NSString stringWithFormat:@"<%@: %p, \"%@ %@\">",
+    [self class],self,_firstName,_lastName];
+}
+// 或者借助NSDictionary的实现
+- (NSString *)description{
+  return [NSString stringWithFormat:@"<%@: %p, %@>",
+    [self class],
+    self,
+    @{
+      @"firstName":_firstName,
+      @"lastName":_lastName
+    }];
+}
+```
+
+## 尽量使用不可变对象
+- 某属性仅内部修改：接口h中尽量声明属性为readonly，之后通过class extension来重新定义为readwrite。不过，在对象外部，依然可以通过KVC技术设置这些值
+- 不要把mutable collection作为属性公开，应提供相应方法，以此修改对象中的mutable collection
+
+## 命名规范
+- 遵从Objective-C命名规范
+- 方法名要简洁，从左至右读起来像日常用语中的句子才好。不要使用缩略后的类型名称
+- 与其他代码保持统一的风格
+- 给私有方法加前缀，这样容易同其他公共方法区分开。通常用p_methodName
+
+## 异常处理
+- 只有发生了可使得整个应用崩溃的严重错误时，才使用异常
+- 在错误不那么严重的情况下，可以指派委托方法(delegate method)来处理错误。也可以把错误放着NSError对象里，由输出参数返回给调用者。
+
+## NSCopying
+- 遵从NSCopying协议的对象，大部分情况下执行的都是浅拷贝。copyWithZone:大部分是用浅拷贝实现的。
+- shallow copy and deep copy不等价与copy and mutableCopy，它们没有必然联系
