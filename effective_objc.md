@@ -215,3 +215,64 @@ resolveInstanceMethod ->*No*-->forwardingTargetForSelector-->*nil*-->forwardInvo
 ## NSCopying
 - 遵从NSCopying协议的对象，大部分情况下执行的都是浅拷贝。copyWithZone:大部分是用浅拷贝实现的。
 - shallow copy and deep copy不等价与copy and mutableCopy，它们没有必然联系
+
+## delegate
+- 通过委托实现回调。
+  EOCDataModel   -------------------->      EOCNetworkFetcher
+                     fetchDataAtURL:
+                                                数据已获取，回调
+                     networkFetcher:didReceiveData:
+                     <-------------------------------
+
+从图中可以看出：
+  + EOCDataModel通常owns EOCNetworkFetcher，至少在这个场景下是如此。model通过组合的方式使用fetcher，后者作为model的一个成员变量。
+  + fetcher获取数据后，将处理数据的任务交给model。
+
+``` objc
+@protocol EOCNetworkFetcherDelegate
+@optional
+- (void)networkFetcher:(EOCNetworkFetcher *)fetcher
+  didReceiveData:(NSSData *)data;
+- (void)networkFetcher:(EOCNetworkFetcher *)fetcher
+  didFailWithError:(NSError *)error;
+@end
+
+//interface
+//.h
+@interface EOCNetworkFetcher:NSObject
+@property (nonatomic,weak) id<EOCNetworkFetcherDelegate> delegate;
+@end
+//.m
+@interface EOCNetworkFetcher(){
+  struct{
+    unsigned int didReceiveData     :1;
+    unsigned int didFailWithError   :1:
+    unsigned int didUpdateProgressTo:1;
+  }_delegateFlags;
+}
+@end
+
+//model
+@interface EOCDataModel () <EOCNetworkFetcherDelegate>
+@end
+
+@implementation EOCDataModel
+- (void)networkFetcher:(EOCNetworkFetcher *)fetcher
+  didReceiveData:(NSSData *)data{
+    //handle data
+}
+- (void)networkFetcher:(EOCNetworkFetcher *)fetcher
+  didFailWithError:(NSError *)error{
+    //handle error
+}
+@end
+```
+- 委托协议中的方法一般都是optional
+- 委托协议中的方法名称要起得恰当，注意使用should,will,did等。另外发起委托的对象，通常也要包含在方法中，用于区分。例如上面的fetcher
+- 有一种专门提供数据的委托协议，也成为数据集模式（data source pattern）。
+- bitfield 用于记录每个optional方法十分被实现。这是一种性能优化的方法。将委托对象是否能够响应协议方法这一信息缓存至其中。
+  _delegateFlags.didReceiveData = [delegate respondsToSelector:@selector(networkFetcher:didReceiveData:)];
+
+## 分类
+- 使用分类机制把类的实现代码划分为易于管理的小块
+- 将应该视为私有的方法归入private分类中
