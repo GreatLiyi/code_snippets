@@ -276,3 +276,16 @@ resolveInstanceMethod ->*No*-->forwardingTargetForSelector-->*nil*-->forwardInvo
 ## 分类
 - 使用分类机制把类的实现代码划分为易于管理的小块
 - 将应该视为私有的方法归入private分类中
+- 属性是用来封装数据的
+- 在class-continuation分类之外的其他分类中，可以定义存取方法，不要定义属性
+
+## 协议在某种程度上提供匿名类型。id<protocol>
+
+## 内存管理
+- 为了避免不经意使用了无效对象，一般调用release后都会清空指针。保证不会出现指向无效对象的指针（悬挂指针dangling pointer）。
+- 引用计数
+  + retain
+  + release
+  + autorelease
+- ARC自动执行retain,release,autorelease操作，所以在ARC下直接调用这些内存管理方法是非法的。具体来说，不能调用以下方法：retain,release,autorelease,dealloc
+- ARC必须遵循的方法命名规则
