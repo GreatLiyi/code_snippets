@@ -335,3 +335,18 @@ close and dealloc
 - 自动释放池机制就像stack。系统创建好自动释放池之后，就将其推入stack，而清空自动释放池，相当于将其从stack中弹出。在对象上执行自动释放操作，等于将其放入栈顶的那个池里。
 - 合理运用自动释放池，可降低应用程序的内存峰值。
 - @autoreleasepool这种新式写法能创建出更为轻便的自动释放池。
+
+## ARC中，不要使用retainCount
+- 无法反应对象生命期的全貌，比如使用了autorelease
+
+## block and GCD
+- block捕获的对象类型，会自动retain它。
+- stack block, heap block, global block
+  + global block:块所需的全部信息都能在编译器确定，所以作为全局块
+  ``` objc
+  void (^block)() = ^{
+    NSLog(@"this is a block");
+  };
+  ```
+- block可接受参数，也可以返回值
+- block可以分配在栈和堆上，也可以是全局的。分配在栈上的可拷贝到堆里，这样就和标准的objective-c对象一样，具备引用计数了。
