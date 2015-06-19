@@ -289,3 +289,49 @@ resolveInstanceMethod ->*No*-->forwardingTargetForSelector-->*nil*-->forwardInvo
   + autorelease
 - ARC自动执行retain,release,autorelease操作，所以在ARC下直接调用这些内存管理方法是非法的。具体来说，不能调用以下方法：retain,release,autorelease,dealloc
 - ARC必须遵循的方法命名规则
+
+## dealloc方法中只释放引用并解除监听
+- 当retainCount=0时，dealloc方法执行，仅此一次。
+``` objc
+- (void)dealloc{
+  CFRelease(coreFoundationObject);
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+```
+如果使用MRC，还需要调用[super dealloc]，并将所有的Objective-C对象逐个释放。
+- 系统不保证每个创建出来的对象的dealloc都会执行。考虑在程序终止时对应的方法中来清理这些对象
+``` objc
+- (void)applicationWillTerminate:(UIApplication *)application;
+```
+
+close and dealloc
+``` objc
+- (void)close{
+  //clean up resource
+  _closed = YES;
+}
+- (void)dealloc{
+  if(!_closed){
+    NSLog(@"Error: close was not called before dealloc!");
+    [self close];
+  }
+}
+```
+- 如果对象持有文件描述符等系统资源，那么应该专门编写一个方法来释放此种资源。这一的类要和其使用者约定：用完资源后必须调用close方法。
+- 执行异步任务的方法不应在dealloc里调用，只能在正常状态下执行的那些方法也不应在dealloc里调用，因为此时对象已经处于正在回收的状态了。
+
+## 弱引用
+- 避免保留环(retain cycle)的最佳方式就是弱引用。表示“非拥有关系”，将属性声明为unsafe_unretained, weak。其中，weak是一项与ARC相伴的运行期特性。当系统把属性回收，属性值自动设置为nil。
+
+## 自动释放池autorelease pool
+- 自动释放池用于存放那些需要在稍后某个时刻释放的对象。清空drain自动释放池时，系统会向其中的对象发送release消息。
+``` objc
+//创建自动释放池
+@autoreleasepool{
+
+}
+```
+- event loop
+- 自动释放池机制就像stack。系统创建好自动释放池之后，就将其推入stack，而清空自动释放池，相当于将其从stack中弹出。在对象上执行自动释放操作，等于将其放入栈顶的那个池里。
+- 合理运用自动释放池，可降低应用程序的内存峰值。
+- @autoreleasepool这种新式写法能创建出更为轻便的自动释放池。
