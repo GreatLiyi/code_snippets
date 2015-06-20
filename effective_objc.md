@@ -350,3 +350,115 @@ close and dealloc
   ```
 - block可接受参数，也可以返回值
 - block可以分配在栈和堆上，也可以是全局的。分配在栈上的可拷贝到堆里，这样就和标准的objective-c对象一样，具备引用计数了。
+
+## retain cycle and block
+- 如果块所捕获的对象直接或间接的保留了块本身，那么就得当心保留环问题
+- 一定要找个适当的时机解除保留环，不能把责任推给api调用者。
+
+## 多用派发队列，少用同步锁
+- 派发队列用来表述同步语义，这种做法比使用@synchronized block or NSLock对象更简单
+- 将同步与异步派发结合起来，可以实现与普通加锁机制一样的同步行为，却不会阻塞执行异步派发的线程
+- 使用同步队列及栅栏块(barrier block)，可以令同步行为更加高效
+
+
+``` objc
+dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW,
+  (int64_t)(5.0*NSEC_PER_SEC));
+dispatch_after(time,dispatch_get_main_queue(),^(){
+  [self doSomething];
+});
+
+dispatch_async(dispatch_get_main_queue(),^{
+  [self doSomething];
+});
+```
+
+## dispatch_once
+``` objc_
+//单例模式
++ (id)sharedInstance{
+  static EOCClass *sharedInstance = nil;
+  @synchronized(self){
+    if(!sharedInstance){
+      sharedInstance = [[self alloc] init];
+    }
+  }
+  return sharedInstance;
+}
+//使用dispatch_once
++ (id)sharedInstance{
+  static EOCClass *sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken,^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+```
+
+## no dispatch_get_current_queue
+
+## 多用块枚举，少用for循环
+- 1.0 NSEnumerator
+``` objc
+NSArray *array = // array or set
+NSEnumerator *enumerator = [array objectEnumerator];
+id object;
+while(object=[enumerator nextObject]){
+  //do something with object
+}
+
+//dict
+NSDictionary *dict = //
+NSEnumerator *enumerator = [dict keyEnumerator];
+id key;
+while(key = [enumerator nextObject]){
+  id value = dict[key];
+  //do something with value
+}
+```
+- NSFactEnumeration protocol, NSEnumerator也实现了该协议
+``` objc
+NSArray *array = //
+for(id object in array){
+  //do something
+}
+
+NSArray *array = //
+for(id object in [array reverseObjectEnumerator]){
+  //do something with object
+}
+```
+- block enumeration
+``` objc
+//nsarray
+- (void)enumerateObjectsUsingBlock:
+  (void(^)(id object,NSUInteger idx,BOOL *stop))block
+- (void)enumerateObjectsWithOptions:(NSEnumerationOptions)opts
+  usingBlock:(void (^)(id object,NSUInteger idx,BOOL *stop))block
+```
+好处在于：遍历时可以直接从块里获取更多信息，可以知道当前的下标。遍历字典时，可以同时获取key and value。另一个好处是能够修改块的方法签名，省去了进行类型转换操作。这点与fast enumeration类似。最后，可以配置NSEnumerationOptions。
+- block enumeration本身通过GCD来并发执行遍历，这是其他遍历方式无法轻易做到的
+- 若提前知道待遍历的collection含有何种对象，则应修改块签名，指出对象的具体类型。
+
+## toll-free bridge
+- 通过toll-free bridge，可以在Foundation framework中的Objective-C对象与CoreFoundation framework中的C语言数据结构之间来回转换
+- 在CoreFoundation层面创建collection时，可以指定许多回调函数，表示此collection应如何处理其元素。然后运用toll-free bridge技术，将其转换成具备特殊内存管理语义的Objective-C collection。
+
+## load and initialize method
+- 加载阶段，如果类实现了load方法，那么系统会调用它。分类里也可以定义此方法，类的load方法要比分类的先调用。与其他方法不同，load方法不参与覆写机制。
+- 首次使用某个类之前，系统会向其发送initialize消息(lazy)。由于此方法遵从普通的覆写规则，所以通常应该在里面判断当前要初始化的是哪个类(override)。
+- 总结一下与load的区别：lazy;运行时处于正常状态，线程安全;遵从覆写机制，子类未实现，会调用父类的实现。
+- 无法在编译期设定的全局常量，可以放在initialize方法里初始化。
+``` objc
+static NSMutableArray *kSomeObjects;
+@implementation EOCClass
++ (void)initialize{
+  if(self == [EOCClass class]){
+    kSomeObjects = [NSMutableArray new];
+  }
+}
+@end
+```
+
+## NSTimer会保留木板对象
