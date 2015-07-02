@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdN-rP-imk" userLabel="slidingView">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WFB-xM-Og7">
+                                        <rect key="frame" x="16" y="52" width="568" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="Sfk-nY-4m9"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aQW-AJ-zdz">
+                                        <rect key="frame" x="16" y="517" width="568" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="bQv-uG-hnC"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aFi-zT-haq">
+                                        <rect key="frame" x="16" y="455" width="568" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="fz0-fP-S3T"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="aQW-AJ-zdz" secondAttribute="bottom" constant="33" id="3MJ-gT-ZDs"/>
+                                    <constraint firstAttribute="trailing" secondItem="aFi-zT-haq" secondAttribute="trailing" constant="16" id="WDD-kd-Xwo"/>
+                                    <constraint firstItem="WFB-xM-Og7" firstAttribute="leading" secondItem="fdN-rP-imk" secondAttribute="leading" constant="16" id="Y2N-lj-STX"/>
+                                    <constraint firstItem="WFB-xM-Og7" firstAttribute="top" secondItem="fdN-rP-imk" secondAttribute="top" constant="52" id="YiT-ZE-5ma"/>
+                                    <constraint firstItem="aQW-AJ-zdz" firstAttribute="leading" secondItem="fdN-rP-imk" secondAttribute="leading" constant="16" id="aRs-xa-abp"/>
+                                    <constraint firstItem="aQW-AJ-zdz" firstAttribute="top" secondItem="aFi-zT-haq" secondAttribute="bottom" constant="32" id="chM-D9-uaY"/>
+                                    <constraint firstAttribute="trailing" secondItem="WFB-xM-Og7" secondAttribute="trailing" constant="16" id="jSd-TA-iZo"/>
+                                    <constraint firstAttribute="trailing" secondItem="aQW-AJ-zdz" secondAttribute="trailing" constant="16" id="mXB-lJ-dlB"/>
+                                    <constraint firstItem="aFi-zT-haq" firstAttribute="leading" secondItem="fdN-rP-imk" secondAttribute="leading" constant="16" id="vBo-H1-0e6"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="fdN-rP-imk" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="bBI-Tx-Knz"/>
+                            <constraint firstItem="fdN-rP-imk" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="rPc-74-mjF"/>
+                            <constraint firstAttribute="trailing" secondItem="fdN-rP-imk" secondAttribute="trailing" id="sLb-dP-kEI"/>
+                            <constraint firstItem="fdN-rP-imk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="y3H-r6-Doj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bottomConstraint" destination="bBI-Tx-Knz" id="vsc-k6-2aJ"/>
+                        <outlet property="slidingView" destination="fdN-rP-imk" id="4dv-Si-oBj"/>
+                        <outlet property="topConstraint" destination="rPc-74-mjF" id="Q1q-Gg-KL1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="213" y="382"/>
+        </scene>
+    </scenes>
+</document>
