@@ -73,11 +73,13 @@ typedef NS_OPTIONS(NSUInteger,EOCPermittedDirection){
 
 ## property
 - 声明一个属性后，编译器自动生成setter，getter方法，还会向类中添加适当类型的实例变量。也可以在类的实现代码中通过@synthesize语法指定实例变量的名字：
+
 ``` objc
 @implementation EOCPerson
 @synthesize firstName = _myFirstName;
 @end
 ```
+
 - 如果你只实现了其中一个存取方法，那么另一个还是会由编译器来合成。
 - 还有一种方法能够阻止编译器自动合成，就是使用@dynamic关键字。
 - property attribute
@@ -102,7 +104,7 @@ readonly
 
 ## equal判断
 - ==默认是比较指针，使用NSObject的方法isEqual:来比较值是否相等
-- NSString isEqualToString: 比isEqual:方法快，后者要执行额外的步骤。
+- `NSString isEqualToString: `比isEqual:方法快，后者要执行额外的步骤。
 - isEqual: and hash
 ``` objc
 //一种比较好的计算hash的方法，在碰撞频度和运算复杂程度之间取舍。速度快，hash碰撞几率低的算法。
@@ -462,4 +464,4 @@ static NSMutableArray *kSomeObjects;
 @end
 ```
 
-## NSTimer会保留木板对象
+## NSTimer会保留目标对象

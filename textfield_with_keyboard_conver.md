@@ -1,5 +1,5 @@
 ## textfield被keyboard覆盖的情况
-解决方案：在keyboard出现的时候，判断是否与当前的first responder相交了（通过高度或者cgrectInsectRect方法）。若相交了，那么算出一个偏移量，将text field的约束值偏移（这里还可以通过设置一个scroll container，通过偏移container来实现）。偏移约束的方式需要使用autolayout。
+解决方案：首先将textfield放在一个container中，container用约束定位，其中的toplayout和bottomlayout添加outlet。在keyboard出现的时候，判断是否与当前的first responder相交了（通过高度或者cgrectInsectRect方法）。若相交了，那么算出一个偏移量，将container约束值偏移。偏移约束的方式需要使用autolayout。
 
 关键代码
 ``` objc
