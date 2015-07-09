@@ -13,3 +13,5 @@
 
 
 http://gold.xitu.io/entry/5599daa2e4b0c4d3e71b292d
+
+http://cocoasamurai.blogspot.jp/2010/01/understanding-objective-c-runtime.html
