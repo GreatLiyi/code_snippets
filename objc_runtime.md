@@ -15,3 +15,8 @@
 http://gold.xitu.io/entry/5599daa2e4b0c4d3e71b292d
 
 http://cocoasamurai.blogspot.jp/2010/01/understanding-objective-c-runtime.html
+
+## self and super
+- [self method], 调用objc_msgSend(self,@selector of method)
+- [super method]，构建objc_super struct(receiver=self,superClass=self's superclass)。传入objc_msgSendSuper(objc_super,selector)。内部逻辑是这样：从objc_super.superClass开始寻找selector(foundSelector)，然后调用objc_msgSend(objc_super.receiver,foundSelector)。
+总结起来说，[super method]从父类class开始查找selector，然后传入self，调用objc_msgSend。其他方便与[self method]没有区别。
