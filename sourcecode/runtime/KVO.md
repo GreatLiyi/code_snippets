@@ -10,6 +10,13 @@ Typically, controller objects observe model objects, and views observe controlle
   options:(NSKeyValueObservingOptions)options
   context:(void *)context
 将anObserver注册为receiver keypath的监听者
+这里的context通常会设置一个const值
+- (void)observeValueForKeyPath:(NSString *)keypath
+  ofObject:(id)object
+  change:(NSDictionary *)change
+  context:(void *)context;
+
+- (void)removeObserver:forKeyPath:context;
 ```
 neither the receiver, nor anObserver are retained. 当使用KVO时，必须调用removeObserver:forKeyPath: or removeObserver:forKeyPath:context:
 
@@ -34,4 +41,35 @@ KVC允许我们用属性的字符串名称来访问属性，字符串也叫键�
 ## KVC without @property
 通过设置-<key> and -set<Key>:方法，可以实现一个支持KVC的属性
 
+``` objc
+//需要height属性支持KVC
+- (CGFloat)height;
+- (void)setHeight:(CGFloat)height;
+//这样就可以调用
+[object setValue:nil forKey:@"height"];
+
+//这里会抛异常，需要处理nil
+- (void)setNilValueForKey:(NSString *)key{
+  if([key isEqualToString:@"height"]){
+    [self setValue:@0 forKey:key];
+  }else{
+    [super setNilValueForKey:key];
+  }
+}
+```
+
+## KVC 访问instance variables
+默认情况下KVC在找不到方法时会访问instance variable, 根据`(BOOL)accessInstanceVariablesDirectly`方法。子类可以override该方法。按照_<key>, _is<Key>, <key> 和 is<Key> 的顺序查找实例变量。
+
+## key path
+KVC同样允许我们通过关系来访问对象，如person对象有属性address,address有属性city
+``` objc
+[person valueForKeyPath:@"address.city"]
+```
+
 ## 集合的操作
+官方文档[collection operators](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/KeyValueCoding/Articles/CollectionOperators.html)
+``` objc
+NSArray *a=@[@4,@84,@2];
+NSLog(@"max= %@",[a valueForKeyPath:@"@max.self"]);//取最大值
+```
