@@ -16,6 +16,18 @@ http://gold.xitu.io/entry/5599daa2e4b0c4d3e71b292d
 
 http://cocoasamurai.blogspot.jp/2010/01/understanding-objective-c-runtime.html
 
+## class method
+- class method中的self指的是什么？
+class也是一个对象，这里的self指的就是该对象。
+- class method和instance method有什么区别？
+class method从meta class中查找，instance method从class中查找
+
+## lldb记录所有的消息调用
+call (void)instrumentObjcMessageSends(YES) //开启
+
+## 如何实现KVO
+http://tech.glowing.com/cn/implement-kvo/
+
 ## self and super
 - [self method], 调用objc_msgSend(self,@selector of method)
 - [super method]，构建objc_super struct(receiver=self,superClass=self's superclass)。传入objc_msgSendSuper(objc_super,selector)。内部逻辑是这样：从objc_super.superClass开始寻找selector(foundSelector)，然后调用objc_msgSend(objc_super.receiver,foundSelector)。
