@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef void(^ObserverBlock)(id observer,NSString *key,id oldValue,id newValue);
+typedef void(^ObserverBlock)(id observedObject,NSString *key,id oldValue,id newValue);
 
 @interface NSObject (KVO)
 - (void)kvo_addObserver:(NSObject *)observer

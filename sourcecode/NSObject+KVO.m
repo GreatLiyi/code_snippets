@@ -83,7 +83,7 @@ static void kvo_setter(id self, SEL _cmd, id newValue){
     for (ObservationInfo *info in observers) {
         if ([info.key isEqualToString:getterName]) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-                info.block(info.observer,info.key,oldValue,newValue);
+                info.block(self,info.key,oldValue,newValue);
             });
         }
     }
@@ -162,7 +162,7 @@ static void kvo_setter(id self, SEL _cmd, id newValue){
     if (observers) {
         ObservationInfo *removedInfo;
         for (ObservationInfo *each in observers) {
-            if ([each.key isEqualToString:key]) {
+            if (each.observer==observer && [each.key isEqualToString:key]) {
                 removedInfo = each;
                 break;
             }
